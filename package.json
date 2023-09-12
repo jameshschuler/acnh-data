@@ -1,0 +1,18 @@
+{
+  "name": "acnh-data",
+  "module": "app.ts",
+  "type": "module",
+  "scripts": {
+    "clean": "rm -rf dist && echo 'Done.'",
+    "start": "bun run --watch app.ts"
+  },
+  "devDependencies": {
+    "bun-types": "^1.0.1"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "csv-parse": "^5.5.0"
+  }
+}
