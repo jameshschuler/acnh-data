@@ -1,9 +1,15 @@
 import {
   processFishes,
+  processFossils,
   processInsects,
+  processMusic,
   processSeaCreatures,
 } from "./src/processors";
 
-await processFishes();
-await processInsects();
-await processSeaCreatures();
+await Promise.allSettled([
+  processFishes(),
+  processInsects(),
+  processSeaCreatures(),
+  processFossils(),
+  processMusic(),
+]);

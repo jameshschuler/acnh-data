@@ -1,5 +1,5 @@
 import { parse } from "csv-parse/sync";
-import { Fish, Insect, Schedule, SeaCreature } from "../types";
+import { Fish, Fossil, Insect, Music, Schedule, SeaCreature } from "../types";
 
 function camelize(input: string) {
   return input
@@ -22,7 +22,7 @@ function parseAvailability(data: any, startsWith: "nH" | "sH"): Schedule[] {
 }
 
 async function parseCsv(fileName: string) {
-  const fishCsv = Bun.file(`data/${fileName}`);
+  const fishCsv = Bun.file(`data/input/${fileName}`);
   return parse(await fishCsv.text(), {
     columns: (header) => header.map((column: string) => camelize(column)),
     skip_empty_lines: true,
@@ -113,9 +113,40 @@ export async function processSeaCreatures() {
 }
 
 export async function processFossils() {
-  // TODO:
+  const parsedData = await parseCsv("fossils.csv");
+  const records = parsedData.map((data: any) => {
+    return {
+      description: data.description,
+      imageUrl: `https://acnhcdn.com/latest/FtrIcon/${data.image}.png`,
+      internalId: data.internalID,
+      name: data.name,
+      sellAmount: data.sell,
+      fossilGroup: data.fossilGroup,
+    } as Fossil;
+  });
+
+  await Bun.write("data/output/fossils.json", JSON.stringify({ records }));
+
+  console.log(`Processed ${records.length} fossils`);
 }
 
 export async function processMusic() {
-  // TODO:
+  const parsedData = await parseCsv("music.csv");
+  const records = parsedData.map((data: any) => {
+    return {
+      internalId: data.internalID,
+      name: data.name,
+      sellAmount: data.sell,
+      buyAmount: data.buyAmount,
+      framedImageUrl: `https://acnhcdn.com/latest/FtrIcon/${data.framedImage}.png`,
+      albumImageUrl: `https://acnhcdn.com/latest/Audio/${data.albumImage}.png`,
+      source: data.source,
+      sourceNotes: data.sourceNotes,
+      catalog: data.catalog,
+    } as Music;
+  });
+
+  await Bun.write("data/output/music.json", JSON.stringify({ records }));
+
+  console.log(`Processed ${records.length} songs`);
 }
