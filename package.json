@@ -4,7 +4,8 @@
   "type": "module",
   "scripts": {
     "clean": "rm -rf dist && echo 'Done.'",
-    "start": "bun run --watch app.ts"
+    "start": "bun run --watch app.ts",
+    "test_predicator": "bun run src/features/turnip-friends/test.ts"
   },
   "devDependencies": {
     "bun-types": "^1.0.1"
